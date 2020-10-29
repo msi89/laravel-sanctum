@@ -21,12 +21,11 @@ php artisan migrate
 Sanctum to authenticate an SPA, you should add Sanctum's middleware to your `api` middleware group within your `app/Http/Kernel.php`
 
 ```php
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 'api' => [
-    EnsureFrontendRequestsAreStateful::class,
+    \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
     'throttle:60,1',
-    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ...
 ],
 ```
 
