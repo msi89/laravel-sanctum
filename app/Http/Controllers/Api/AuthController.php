@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,11 @@ class AuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        $user['access_token'] = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->device_name);
+
+        $user['access_token'] = $token->plainTextToken;
+        $user['expire_at'] = Carbon::parse($token->accessToken->created_at)->addMonth(12);
+
 
         return response()->json($user);
     }
